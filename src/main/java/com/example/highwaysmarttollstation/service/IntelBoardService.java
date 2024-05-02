@@ -1,16 +1,16 @@
 package com.example.highwaysmarttollstation.service;
 
-import com.example.highwaysmarttollstation.entity.UserInfoEntity;
+import com.example.highwaysmarttollstation.entity.IntelBoardEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- * 用户表 服务类
+ * LED情报板 服务类
  * </p>
  *
  * @author Double-Hong
  * @since 2024-05-02 19:39:33
  */
-public interface UserInfoService extends IService<UserInfoEntity> {
+public interface IntelBoardService extends IService<IntelBoardEntity> {
 
 }
