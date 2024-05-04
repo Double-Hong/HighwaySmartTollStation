@@ -49,8 +49,8 @@ public class EtcAntennaEntity {
     private Float readRange;
 
     @ApiModelProperty("波束宽度")
-    @TableField("beamwidth")
-    private Float beamwidth;
+    @TableField("beam_width")
+    private Float beamWidth;
 
     @ApiModelProperty("状态（连接还是未连接）")
     @TableField("state")

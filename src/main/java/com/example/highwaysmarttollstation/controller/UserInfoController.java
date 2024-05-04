@@ -1,12 +1,12 @@
 package com.example.highwaysmarttollstation.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.highwaysmarttollstation.entity.UserInfoEntity;
 import com.example.highwaysmarttollstation.mapper.UserInfoMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.catalina.User;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -23,8 +23,46 @@ public class UserInfoController {
     @Resource
     UserInfoMapper userInfoMapper;
 
-    @GetMapping("/login")
-    public UserInfoEntity login(){
-        return userInfoMapper.selectOne(new QueryWrapper<UserInfoEntity>().eq("id","001"));
+    /**
+     * 登录
+     *
+     * @param password 密码
+     * @param username 用户名
+     * @return 一个用户信息实体类
+     */
+    @GetMapping("/login/{username},{password}")
+    public UserInfoEntity login(@PathVariable String password, @PathVariable String username) {
+        return userInfoMapper.selectOne(new QueryWrapper<UserInfoEntity>().eq("username", username).eq("password", password));
+    }
+
+    /**
+     * 通过uid获取用户信息
+     *
+     * @param uid 用户uid
+     * @return 一个用户实体类
+     */
+    @GetMapping("/getUserInfoById/{uid}")
+    public UserInfoEntity getUserInfoById(@PathVariable String uid) {
+        return userInfoMapper.selectOne(new QueryWrapper<UserInfoEntity>().eq("uid", uid));
+    }
+
+    /**
+     * 用户修改个人信息
+     *
+     * @param userInfoEntity 修改后的信息
+     * @return 一个int数值，标识修改是否成功
+     */
+    @PostMapping("/modifyUserInfo")
+    public int modifyUserInfo(@RequestBody UserInfoEntity userInfoEntity) {
+        return userInfoMapper.updateById(userInfoEntity);
+    }
+
+    @GetMapping("/modifyPassword/{uid},{password}")
+    public int modifyPassword(@PathVariable String uid, @PathVariable String password) {
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        userInfoEntity.setPassword(password);
+        UpdateWrapper<UserInfoEntity> userInfoEntityUpdateWrapper = new UpdateWrapper<>();
+        userInfoEntityUpdateWrapper.eq("uid",uid);
+        return userInfoMapper.update(userInfoEntity,userInfoEntityUpdateWrapper);
     }
 }
