@@ -15,7 +15,7 @@ import java.util.List;
 public class PreTransactionDTO {
     public List<CameraEntity> cameraEntities;
 
-    public EtcAntennaEntity etcAntennaEntity;
+    public List<EtcAntennaEntity> etcAntennaEntities;
 
-    public InductionScreenEntity inductionScreenEntity;
+    public List<InductionScreenEntity> inductionScreenEntities;
 }

@@ -55,12 +55,18 @@ public class PreTransactionGantryEquipmentController {
     }
 
 
+    /**
+     * 根据id获取预交易门架设备基础信息
+     *
+     * @param uid 门架设备uid
+     * @return PreTransactionGantryEquipmentEntity
+     */
     @GetMapping("/getTransactionDetailById/{uid}")
     public Result<?> getTransactionDetailById(@PathVariable String uid) {
         PreTransactionDTO preTransactionDTO = new PreTransactionDTO();
         preTransactionDTO.cameraEntities = cameraMapper.selectList(new QueryWrapper<CameraEntity>().eq("transaction_id", uid));
-        preTransactionDTO.etcAntennaEntity = etcAntennaMapper.selectOne(new QueryWrapper<EtcAntennaEntity>().eq("transaction_id",uid));
-        preTransactionDTO.inductionScreenEntity = inductionScreenMapper.selectOne(new QueryWrapper<InductionScreenEntity>().eq("transaction_id",uid));
+        preTransactionDTO.etcAntennaEntities = etcAntennaMapper.selectList(new QueryWrapper<EtcAntennaEntity>().eq("transaction_id",uid));
+        preTransactionDTO.inductionScreenEntities = inductionScreenMapper.selectList(new QueryWrapper<InductionScreenEntity>().eq("transaction_id",uid));
 
         return Result.success(preTransactionDTO);
     }

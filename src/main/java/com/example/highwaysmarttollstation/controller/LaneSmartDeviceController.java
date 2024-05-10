@@ -1,7 +1,21 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.highwaysmarttollstation.Result;
+import com.example.highwaysmarttollstation.entity.DTO.LaneSmartDeviceDTO;
+import com.example.highwaysmarttollstation.entity.EntranceEquipmentEntity;
+import com.example.highwaysmarttollstation.entity.ExportPaymentEquipmentEntity;
+import com.example.highwaysmarttollstation.entity.LaneSmartDeviceEntity;
+import com.example.highwaysmarttollstation.mapper.EntranceEquipmentMapper;
+import com.example.highwaysmarttollstation.mapper.ExportPaymentEquipmentMapper;
+import com.example.highwaysmarttollstation.mapper.LaneSmartDeviceMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +29,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/lane-smart-device-entity")
 public class LaneSmartDeviceController {
 
+    @Resource
+    LaneSmartDeviceMapper laneSmartDeviceMapper;
+
+    @Resource
+    ExportPaymentEquipmentMapper exportPaymentEquipmentMapper;
+
+    @Resource
+    EntranceEquipmentMapper entranceEquipmentMapper;
+
+    /**
+     * 获取所有车道智能自助设备基础信息
+     *
+     * @return 所有车道智能自助设备基础信息
+     */
+    @GetMapping("/getAllLaneSmartDevice")
+    public List<LaneSmartDeviceEntity> getAllLaneSmartDevice() {
+        return laneSmartDeviceMapper.selectList(null);
+    }
+
+    @GetMapping("/getSmartDeviceDetailById/{id}")
+    public Result<?> getSmartDeviceDetailById(@PathVariable String id) {
+        LaneSmartDeviceDTO laneSmartDeviceDTO = new LaneSmartDeviceDTO();
+        laneSmartDeviceDTO.entranceEquipmentEntity = entranceEquipmentMapper.selectOne(new QueryWrapper<EntranceEquipmentEntity>().eq("lane_smart_device_id", id));
+        laneSmartDeviceDTO.exportPaymentEquipmentEntity = exportPaymentEquipmentMapper.selectOne(new QueryWrapper<ExportPaymentEquipmentEntity>().eq("lane_smart_device_id",id));
+        return Result.success(laneSmartDeviceDTO);
+    }
 }

@@ -1,5 +1,10 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.example.highwaysmarttollstation.entity.EntranceEquipmentEntity;
+import com.example.highwaysmarttollstation.mapper.EntranceEquipmentMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,5 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/entrance-equipment-entity")
 public class EntranceEquipmentController {
+
+    @Resource
+    EntranceEquipmentMapper entranceEquipmentMapper;
+
+    @PostMapping("/updateEntranceEquipment")
+    public EntranceEquipmentEntity updateEntranceEquipment(@RequestBody EntranceEquipmentEntity entranceEquipmentEntity){
+        entranceEquipmentMapper.updateById(entranceEquipmentEntity);
+        return entranceEquipmentMapper.selectById(entranceEquipmentEntity.getEntranceEquipmentId());
+    }
 
 }

@@ -1,7 +1,12 @@
 package com.example.highwaysmarttollstation.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.highwaysmarttollstation.entity.InductionScreenEntity;
+import com.example.highwaysmarttollstation.mapper.InductionScreenMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/induction-screen-entity")
 public class InductionScreenController {
 
+    @Resource
+    InductionScreenMapper inductionScreenMapper;
+
+    /**
+     * 根据id获取诱导屏信息
+     * @param id 诱导屏id
+     * @return InductionScreenEntity
+     */
+    @GetMapping("/getInductionScreen/{id}")
+    public InductionScreenEntity getInductionScreenById(@PathVariable String id) {
+        return inductionScreenMapper.selectById(id);
+    }
+
+    /**
+     * 更新诱导屏信息
+     * @param inductionScreenEntity 诱导屏实体
+     * @return List<InductionScreenEntity>
+     */
+    @PostMapping("/updateInductionScreen")
+    public List<InductionScreenEntity> updateInductionScreen(@RequestBody InductionScreenEntity inductionScreenEntity){
+        inductionScreenMapper.updateById(inductionScreenEntity);
+        return inductionScreenMapper.selectList(new QueryWrapper<InductionScreenEntity>().eq("transaction_id",inductionScreenEntity.getTransactionId()));
+    }
 }

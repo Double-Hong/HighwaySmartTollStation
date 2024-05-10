@@ -1,7 +1,12 @@
 package com.example.highwaysmarttollstation.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.highwaysmarttollstation.entity.EtcAntennaEntity;
+import com.example.highwaysmarttollstation.mapper.EtcAntennaMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/etc-antenna-entity")
 public class EtcAntennaController {
 
+    @Resource
+    EtcAntennaMapper etcAntennaMapper;
+
+    /**
+     * 根据id获取ETC天线信息
+     * @param id 天线id
+     * @return EtcAntennaEntity
+     */
+    @GetMapping("/getAntenna/{id}")
+    public EtcAntennaEntity getAntennaById(@PathVariable String id) {
+        return etcAntennaMapper.selectById(id);
+    }
+
+    /**
+     * 更新ETC天线信息
+     * @param etcAntennaEntity 天线实体
+     * @return List<EtcAntennaEntity>
+     */
+    @PostMapping("/updateAntenna")
+    public List<EtcAntennaEntity> updateAntenna(@RequestBody EtcAntennaEntity etcAntennaEntity) {
+        etcAntennaMapper.updateById(etcAntennaEntity);
+        return etcAntennaMapper.selectList(new QueryWrapper<EtcAntennaEntity>().eq("transaction_id",etcAntennaEntity.getTransactionId()));
+    }
 }
