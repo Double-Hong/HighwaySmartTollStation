@@ -1,7 +1,17 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.highwaysmarttollstation.Result;
+import com.example.highwaysmarttollstation.entity.*;
+import com.example.highwaysmarttollstation.entity.DTO.LaneInfrastructureDTO;
+import com.example.highwaysmarttollstation.mapper.*;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +24,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/lane-infrastructure-entity")
 public class LaneInfrastructureController {
+
+    @Resource
+    LaneInfrastructureMapper laneInfrastructureMapper;
+
+    @Resource
+    AwningLightMapper awningLightMapper;
+
+    @Resource
+    CarDetectorMapper carDetectorMapper;
+
+    @Resource
+    IntelBoardMapper intelBoardMapper;
+
+    @Resource
+    LaneWeighingEquipmentMapper laneWeighingEquipmentMapper;
+
+    /**
+     * 获取所有车道基础设备信息
+     * @return List<LaneInfrastructureEntity>
+     */
+    @GetMapping("/getAllLaneInfrastructure")
+    public List<LaneInfrastructureEntity> getAllLaneInfrastructure(){
+        return laneInfrastructureMapper.selectList(null);
+    }
+
+    @GetMapping("/getLaneInfrastructureDetailById/{id}")
+    public Result<?> getLaneInfrastructureDetailById(@PathVariable String id){
+        LaneInfrastructureDTO laneInfrastructureDTO = new LaneInfrastructureDTO();
+        laneInfrastructureDTO.awningLightEntity = awningLightMapper.selectOne(new QueryWrapper<AwningLightEntity>().eq("lane_infrastructure_id",id));
+        laneInfrastructureDTO.carDetectorEntity = carDetectorMapper.selectOne(new QueryWrapper<CarDetectorEntity>().eq("lane_infrastructure_id",id));
+        laneInfrastructureDTO.intelBoardEntity = intelBoardMapper.selectOne(new QueryWrapper<IntelBoardEntity>().eq("lane_infrastructure_id",id));
+        laneInfrastructureDTO.laneWeighingEquipmentEntity = laneWeighingEquipmentMapper.selectOne(new QueryWrapper<LaneWeighingEquipmentEntity>().eq("lane_infrastructure_id",id));
+        return Result.success(laneInfrastructureDTO);
+    }
 
 }

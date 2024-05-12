@@ -48,6 +48,11 @@ public class LaneSmartDeviceController {
         return laneSmartDeviceMapper.selectList(null);
     }
 
+    /**
+     * 根据id获取车道智能自助设备基础信息
+     * @param id 车道id
+     * @return LaneSmartDeviceEntity
+     */
     @GetMapping("/getSmartDeviceDetailById/{id}")
     public Result<?> getSmartDeviceDetailById(@PathVariable String id) {
         LaneSmartDeviceDTO laneSmartDeviceDTO = new LaneSmartDeviceDTO();

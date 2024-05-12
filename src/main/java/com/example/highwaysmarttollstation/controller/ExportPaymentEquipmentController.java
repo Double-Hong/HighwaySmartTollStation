@@ -23,6 +23,11 @@ public class ExportPaymentEquipmentController {
     @Resource
     ExportPaymentEquipmentMapper exportPaymentEquipmentMapper;
 
+    /**
+     * 更新出口自助缴费设备信息
+     * @param exportPaymentEquipmentEntity 出口自助缴费设备实体
+     * @return ExportPaymentEquipmentEntity
+     */
     @PostMapping("/updateExportPaymentEquipment")
     public ExportPaymentEquipmentEntity updateExportPaymentEquipment(@RequestBody ExportPaymentEquipmentEntity exportPaymentEquipmentEntity){
         exportPaymentEquipmentMapper.updateById(exportPaymentEquipmentEntity);

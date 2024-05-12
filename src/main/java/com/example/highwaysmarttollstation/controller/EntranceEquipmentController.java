@@ -23,6 +23,11 @@ public class EntranceEquipmentController {
     @Resource
     EntranceEquipmentMapper entranceEquipmentMapper;
 
+    /**
+     * 更新入口自助发卡设备信息
+     * @param entranceEquipmentEntity 入口自助发卡设备实体
+     * @return EntranceEquipmentEntity
+     */
     @PostMapping("/updateEntranceEquipment")
     public EntranceEquipmentEntity updateEntranceEquipment(@RequestBody EntranceEquipmentEntity entranceEquipmentEntity){
         entranceEquipmentMapper.updateById(entranceEquipmentEntity);
