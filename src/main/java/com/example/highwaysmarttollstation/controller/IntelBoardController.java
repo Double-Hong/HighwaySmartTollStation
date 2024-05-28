@@ -1,5 +1,10 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.example.highwaysmarttollstation.entity.IntelBoardEntity;
+import com.example.highwaysmarttollstation.mapper.IntelBoardMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,5 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/intel-board-entity")
 public class IntelBoardController {
+
+    @Resource
+    IntelBoardMapper intelBoardMapper;
+
+    @PostMapping("/updateIntelBoard")
+    public int updateIntelBoard(@RequestBody IntelBoardEntity intelBoardEntity){
+        return intelBoardMapper.updateById(intelBoardEntity);
+    }
 
 }

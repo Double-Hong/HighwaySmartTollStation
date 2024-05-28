@@ -6,10 +6,7 @@ import com.example.highwaysmarttollstation.entity.*;
 import com.example.highwaysmarttollstation.entity.DTO.LaneInfrastructureDTO;
 import com.example.highwaysmarttollstation.mapper.*;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -59,4 +56,9 @@ public class LaneInfrastructureController {
         return Result.success(laneInfrastructureDTO);
     }
 
+    @PostMapping("/updateLaneInfrastructure")
+    public List<LaneInfrastructureEntity> updateLaneInfrastructure(@RequestBody LaneInfrastructureEntity laneInfrastructureEntity) {
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
+        return laneInfrastructureMapper.selectList(null);
+    }
 }

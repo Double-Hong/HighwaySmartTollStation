@@ -12,13 +12,11 @@ import com.example.highwaysmarttollstation.mapper.EtcAntennaMapper;
 import com.example.highwaysmarttollstation.mapper.InductionScreenMapper;
 import com.example.highwaysmarttollstation.mapper.PreTransactionGantryEquipmentMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -69,6 +67,26 @@ public class PreTransactionGantryEquipmentController {
         preTransactionDTO.inductionScreenEntities = inductionScreenMapper.selectList(new QueryWrapper<InductionScreenEntity>().eq("transaction_id",uid));
 
         return Result.success(preTransactionDTO);
+    }
+
+    /**
+     * 更新预交易门架设备基础信息
+     * @param preTransactionGantryEquipmentEntity 预交易门架设备实体
+     * @return List<PreTransactionGantryEquipmentEntity>
+     */
+    @PostMapping("/updateTransactionDetail")
+    public List<PreTransactionGantryEquipmentEntity> updateTransactionDetail(@RequestBody PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity){
+        preTransactionGantryEquipmentMapper.updateById(preTransactionGantryEquipmentEntity);
+        return preTransactionGantryEquipmentMapper.selectList(null);
+    }
+
+    @PostMapping("/addTransactionDetail")
+    public List<PreTransactionGantryEquipmentEntity> addTransactionDetail(@RequestBody PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity){
+        preTransactionGantryEquipmentEntity.setState("未连接");
+        UUID uuid = UUID.randomUUID();
+        preTransactionGantryEquipmentEntity.setTransactionId(uuid.toString());
+        preTransactionGantryEquipmentMapper.insert(preTransactionGantryEquipmentEntity);
+        return preTransactionGantryEquipmentMapper.selectList(null);
     }
 
 }

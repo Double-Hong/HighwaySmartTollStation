@@ -10,12 +10,10 @@ import com.example.highwaysmarttollstation.mapper.EntranceEquipmentMapper;
 import com.example.highwaysmarttollstation.mapper.ExportPaymentEquipmentMapper;
 import com.example.highwaysmarttollstation.mapper.LaneSmartDeviceMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -59,5 +57,24 @@ public class LaneSmartDeviceController {
         laneSmartDeviceDTO.entranceEquipmentEntity = entranceEquipmentMapper.selectOne(new QueryWrapper<EntranceEquipmentEntity>().eq("lane_smart_device_id", id));
         laneSmartDeviceDTO.exportPaymentEquipmentEntity = exportPaymentEquipmentMapper.selectOne(new QueryWrapper<ExportPaymentEquipmentEntity>().eq("lane_smart_device_id",id));
         return Result.success(laneSmartDeviceDTO);
+    }
+
+    /**
+     * 更新车道智能自助设备基础信息
+     * @param laneSmartDeviceEntity 车道智能自助设备实体
+     * @return List<LaneSmartDeviceEntity>
+     */
+    @PostMapping("/updateLaneSmartDevice")
+    public List<LaneSmartDeviceEntity> updateLaneSmartDevice(@RequestBody LaneSmartDeviceEntity laneSmartDeviceEntity){
+        laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
+        return laneSmartDeviceMapper.selectList(null);
+    }
+
+    @PostMapping("/addLaneSmartDevice")
+    public List<LaneSmartDeviceEntity> addLaneSmartDevice(@RequestBody LaneSmartDeviceEntity laneSmartDeviceEntity){
+        laneSmartDeviceEntity.setLaneSmartDeviceId(UUID.randomUUID().toString());
+        laneSmartDeviceEntity.setState("未连接");
+        laneSmartDeviceMapper.insert(laneSmartDeviceEntity);
+        return laneSmartDeviceMapper.selectList(null);
     }
 }

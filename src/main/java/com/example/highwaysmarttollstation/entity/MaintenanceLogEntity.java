@@ -48,5 +48,9 @@ public class MaintenanceLogEntity {
     @TableField("maintain_people")
     private String maintainPeople;
 
+    @ApiModelProperty("设备名称")
+    @TableField("device_name")
+    private String deviceName;
+
 
 }

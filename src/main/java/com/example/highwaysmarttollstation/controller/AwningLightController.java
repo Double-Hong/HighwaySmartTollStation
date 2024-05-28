@@ -1,5 +1,10 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.example.highwaysmarttollstation.entity.AwningLightEntity;
+import com.example.highwaysmarttollstation.mapper.AwningLightMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,5 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/awning-light-entity")
 public class AwningLightController {
+
+    @Resource
+    AwningLightMapper awningLightMapper;
+
+    @PostMapping("/updateAwningLight")
+    public int updateAwningLight(@RequestBody AwningLightEntity awningLightEntity){
+        awningLightMapper.updateById(awningLightEntity);
+        return 1;
+    }
 
 }

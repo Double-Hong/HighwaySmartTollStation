@@ -8,6 +8,8 @@ import jakarta.annotation.Resource;
 import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 前端控制器
@@ -65,4 +67,14 @@ public class UserInfoController {
         userInfoEntityUpdateWrapper.eq("uid",uid);
         return userInfoMapper.update(userInfoEntity,userInfoEntityUpdateWrapper);
     }
+
+    /**
+     * 获取所有维修人员和监测人员
+     * @return 所有维修人员和监测人员
+     */
+    @GetMapping("/getAllUserInfo")
+    public List<UserInfoEntity> getAllUserInfo(){
+        return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("type",2).or().eq("type",3));
+    }
+
 }

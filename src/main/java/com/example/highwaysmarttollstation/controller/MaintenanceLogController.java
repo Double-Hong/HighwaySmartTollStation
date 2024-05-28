@@ -1,7 +1,15 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.highwaysmarttollstation.entity.MaintenanceLogEntity;
+import com.example.highwaysmarttollstation.mapper.MaintenanceLogMapper;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/maintenance-log-entity")
 public class MaintenanceLogController {
+
+    @Resource
+    MaintenanceLogMapper maintenanceLogMapper;
+
+    @GetMapping("/getMaintenanceLogByUserId/{uid}")
+    public List<MaintenanceLogEntity> getMaintenanceLogByUserId(@PathVariable String uid){
+        return maintenanceLogMapper.selectList(new QueryWrapper<MaintenanceLogEntity>().eq("maintain_people",uid));
+    }
 
 }

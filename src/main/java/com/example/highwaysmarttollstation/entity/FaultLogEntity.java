@@ -49,5 +49,9 @@ public class FaultLogEntity {
     @TableField("maintenance_state")
     private String maintenanceState;
 
+    @ApiModelProperty("设备名称")
+    @TableField("device_name")
+    private String deviceName;
+
 
 }
