@@ -9,6 +9,7 @@ import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -74,6 +75,14 @@ public class UserInfoController {
      */
     @GetMapping("/getAllUserInfo")
     public List<UserInfoEntity> getAllUserInfo(){
+        return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("type",2).or().eq("type",3));
+    }
+
+    @PostMapping("/addUser")
+    public List<UserInfoEntity> addUser(@RequestBody UserInfoEntity userInfoEntity){
+        userInfoEntity.setUid(UUID.randomUUID().toString());
+        userInfoEntity.setName(userInfoEntity.getUsername());
+        userInfoMapper.insert(userInfoEntity);
         return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("type",2).or().eq("type",3));
     }
 

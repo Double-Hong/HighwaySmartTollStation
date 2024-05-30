@@ -80,6 +80,11 @@ public class PreTransactionGantryEquipmentController {
         return preTransactionGantryEquipmentMapper.selectList(null);
     }
 
+    /**
+     * 添加预交易门架设备
+     * @param preTransactionGantryEquipmentEntity 预交易门架设备实体
+     * @return List<PreTransactionGantryEquipmentEntity>
+     */
     @PostMapping("/addTransactionDetail")
     public List<PreTransactionGantryEquipmentEntity> addTransactionDetail(@RequestBody PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity){
         preTransactionGantryEquipmentEntity.setState("未连接");
@@ -89,4 +94,9 @@ public class PreTransactionGantryEquipmentController {
         return preTransactionGantryEquipmentMapper.selectList(null);
     }
 
+    @GetMapping("/deleteTransactionDetail/{uid}")
+    public List<PreTransactionGantryEquipmentEntity> deleteTransactionDetail(@PathVariable String uid){
+        preTransactionGantryEquipmentMapper.deleteById(uid);
+        return preTransactionGantryEquipmentMapper.selectList(null);
+    }
 }

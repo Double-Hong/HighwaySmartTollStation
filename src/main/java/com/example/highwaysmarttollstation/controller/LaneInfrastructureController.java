@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -46,6 +47,11 @@ public class LaneInfrastructureController {
         return laneInfrastructureMapper.selectList(null);
     }
 
+    /**
+     * 根据id获取车道基础设备信息
+     * @param id 车道id
+     * @return LaneInfrastructureEntity
+     */
     @GetMapping("/getLaneInfrastructureDetailById/{id}")
     public Result<?> getLaneInfrastructureDetailById(@PathVariable String id){
         LaneInfrastructureDTO laneInfrastructureDTO = new LaneInfrastructureDTO();
@@ -56,9 +62,38 @@ public class LaneInfrastructureController {
         return Result.success(laneInfrastructureDTO);
     }
 
+    /**
+     * 更新车道基础设备信息
+     * @param laneInfrastructureEntity 车道基础设备实体
+     * @return List<LaneInfrastructureEntity>
+     */
     @PostMapping("/updateLaneInfrastructure")
     public List<LaneInfrastructureEntity> updateLaneInfrastructure(@RequestBody LaneInfrastructureEntity laneInfrastructureEntity) {
         laneInfrastructureMapper.updateById(laneInfrastructureEntity);
+        return laneInfrastructureMapper.selectList(null);
+    }
+
+    /**
+     * 添加车道基础设备
+     * @param laneInfrastructureEntity 车道基础设备实体
+     * @return List<LaneInfrastructureEntity>
+     */
+    @PostMapping("/addLaneInfrastructure")
+    public List<LaneInfrastructureEntity> addLaneInfrastructure(@RequestBody LaneInfrastructureEntity laneInfrastructureEntity) {
+        laneInfrastructureEntity.setLaneInfrastructureId(UUID.randomUUID().toString());
+        laneInfrastructureEntity.setState("未连接");
+        laneInfrastructureMapper.insert(laneInfrastructureEntity);
+        return laneInfrastructureMapper.selectList(null);
+    }
+
+    /**
+     * 删除车道基础设备
+     * @param id 车道id
+     * @return List<LaneInfrastructureEntity>
+     */
+    @GetMapping("/deleteLaneInfrastructure/{id}")
+    public List<LaneInfrastructureEntity> deleteLaneInfrastructure(@PathVariable String id){
+        laneInfrastructureMapper.deleteById(id);
         return laneInfrastructureMapper.selectList(null);
     }
 }

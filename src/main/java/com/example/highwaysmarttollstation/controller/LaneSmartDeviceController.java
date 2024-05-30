@@ -70,11 +70,22 @@ public class LaneSmartDeviceController {
         return laneSmartDeviceMapper.selectList(null);
     }
 
+    /**
+     * 添加车道智能自助设备
+     * @param laneSmartDeviceEntity 车道智能自助设备实体
+     * @return List<LaneSmartDeviceEntity>
+     */
     @PostMapping("/addLaneSmartDevice")
     public List<LaneSmartDeviceEntity> addLaneSmartDevice(@RequestBody LaneSmartDeviceEntity laneSmartDeviceEntity){
         laneSmartDeviceEntity.setLaneSmartDeviceId(UUID.randomUUID().toString());
         laneSmartDeviceEntity.setState("未连接");
         laneSmartDeviceMapper.insert(laneSmartDeviceEntity);
+        return laneSmartDeviceMapper.selectList(null);
+    }
+
+    @GetMapping("/deleteLaneSmartDevice/{id}")
+    public List<LaneSmartDeviceEntity> deleteLaneSmartDevice(@PathVariable String id){
+        laneSmartDeviceMapper.deleteById(id);
         return laneSmartDeviceMapper.selectList(null);
     }
 }
