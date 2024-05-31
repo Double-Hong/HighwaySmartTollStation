@@ -86,4 +86,10 @@ public class UserInfoController {
         return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("type",2).or().eq("type",3));
     }
 
+
+    @GetMapping("/checkUsername/{username}")
+    public int checkUsername(@PathVariable String username){
+        return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("username",username)).size();
+    }
+
 }
