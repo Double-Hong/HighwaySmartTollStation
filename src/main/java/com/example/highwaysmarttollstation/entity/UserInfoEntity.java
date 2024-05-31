@@ -63,5 +63,8 @@ public class UserInfoEntity {
     @TableField("phone")
     private String phone;
 
+    @ApiModelProperty("是否在职")
+    @TableField("state")
+    private String state;
 
 }
