@@ -1,12 +1,13 @@
 package com.example.highwaysmarttollstation.controller;
 
 import com.example.highwaysmarttollstation.entity.EntranceEquipmentEntity;
+import com.example.highwaysmarttollstation.entity.LaneSmartDeviceEntity;
 import com.example.highwaysmarttollstation.mapper.EntranceEquipmentMapper;
+import com.example.highwaysmarttollstation.mapper.LaneSmartDeviceMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -23,15 +24,48 @@ public class EntranceEquipmentController {
     @Resource
     EntranceEquipmentMapper entranceEquipmentMapper;
 
+    @Resource
+    LaneSmartDeviceMapper laneSmartDeviceMapper;
+
     /**
      * 更新入口自助发卡设备信息
+     *
      * @param entranceEquipmentEntity 入口自助发卡设备实体
      * @return EntranceEquipmentEntity
      */
     @PostMapping("/updateEntranceEquipment")
-    public EntranceEquipmentEntity updateEntranceEquipment(@RequestBody EntranceEquipmentEntity entranceEquipmentEntity){
+    public EntranceEquipmentEntity updateEntranceEquipment(@RequestBody EntranceEquipmentEntity entranceEquipmentEntity) {
         entranceEquipmentMapper.updateById(entranceEquipmentEntity);
         return entranceEquipmentMapper.selectById(entranceEquipmentEntity.getEntranceEquipmentId());
+    }
+
+    /**
+     * 添加入口自助发卡设备
+     *
+     * @param entranceEquipmentEntity 入口自助发卡设备实体
+     * @param smartDeviceId           车道智能设备id
+     * @return EntranceEquipmentEntity
+     */
+    @PostMapping("/addEntranceEquipment/{smartDeviceId}")
+    public EntranceEquipmentEntity addEntranceEquipment(@RequestBody EntranceEquipmentEntity entranceEquipmentEntity, @PathVariable String smartDeviceId) {
+        entranceEquipmentEntity.setEntranceEquipmentId(UUID.randomUUID().toString());
+        entranceEquipmentEntity.setLaneSmartDeviceId(smartDeviceId);
+        entranceEquipmentMapper.insert(entranceEquipmentEntity);
+        LaneSmartDeviceEntity laneSmartDeviceEntity = laneSmartDeviceMapper.selectById(smartDeviceId);
+        laneSmartDeviceEntity.setEntranceEquipmentId(entranceEquipmentEntity.getEntranceEquipmentId());
+        laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
+        return entranceEquipmentMapper.selectById(entranceEquipmentEntity.getEntranceEquipmentId());
+    }
+
+    /**
+     * 删除入口自助发卡设备
+     *
+     * @param id 入口自助发卡设备id
+     * @return int
+     */
+    @GetMapping("/deleteEntranceEquipment/{id}")
+    public int deleteEntranceEquipment(@PathVariable String id) {
+        return entranceEquipmentMapper.deleteById(id);
     }
 
 }

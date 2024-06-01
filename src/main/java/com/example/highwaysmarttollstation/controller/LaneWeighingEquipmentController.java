@@ -3,10 +3,9 @@ package com.example.highwaysmarttollstation.controller;
 import com.example.highwaysmarttollstation.entity.LaneWeighingEquipmentEntity;
 import com.example.highwaysmarttollstation.mapper.LaneWeighingEquipmentMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -28,4 +27,27 @@ public class LaneWeighingEquipmentController {
         return laneWeighingEquipmentMapper.updateById(laneWeighingEquipmentEntity);
     }
 
+    /**
+     * 添加车道称重设备
+     *
+     * @param laneWeighingEquipmentEntity 车道称重设备实体
+     * @return LaneWeighingEquipmentEntity
+     */
+    @PostMapping("/addLaneWeighingEquipment")
+    public LaneWeighingEquipmentEntity addLaneWeighingEquipment(@RequestBody LaneWeighingEquipmentEntity laneWeighingEquipmentEntity){
+        laneWeighingEquipmentEntity.setLaneWeighingId(UUID.randomUUID().toString());
+        laneWeighingEquipmentMapper.insert(laneWeighingEquipmentEntity);
+        return laneWeighingEquipmentEntity;
+    }
+
+    /**
+     * 删除车道称重设备
+     *
+     * @param laneWeighingId 车道称重设备ID
+     * @return int
+     */
+    @GetMapping("/deleteLaneWeighingEquipment/{laneWeighingId}")
+    public int deleteLaneWeighingEquipment(@PathVariable String laneWeighingId){
+        return laneWeighingEquipmentMapper.deleteById(laneWeighingId);
+    }
 }

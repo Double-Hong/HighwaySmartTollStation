@@ -3,10 +3,9 @@ package com.example.highwaysmarttollstation.controller;
 import com.example.highwaysmarttollstation.entity.AwningLightEntity;
 import com.example.highwaysmarttollstation.mapper.AwningLightMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -24,9 +23,33 @@ public class AwningLightController {
     AwningLightMapper awningLightMapper;
 
     @PostMapping("/updateAwningLight")
-    public int updateAwningLight(@RequestBody AwningLightEntity awningLightEntity){
+    public int updateAwningLight(@RequestBody AwningLightEntity awningLightEntity) {
         awningLightMapper.updateById(awningLightEntity);
         return 1;
+    }
+
+    /**
+     * 添加雨棚灯
+     *
+     * @param awningLightEntity 雨棚灯实体
+     * @return AwningLightEntity
+     */
+    @PostMapping("/addAwningLight")
+    public AwningLightEntity addAwningLight(@RequestBody AwningLightEntity awningLightEntity) {
+        awningLightEntity.setAwningLightId(UUID.randomUUID().toString());
+        awningLightMapper.insert(awningLightEntity);
+        return awningLightEntity;
+    }
+
+    /**
+     * 删除雨棚灯
+     *
+     * @param awningLightId 雨棚灯ID
+     * @return int
+     */
+    @GetMapping("/deleteAwningLight/{awningLightId}")
+    public int deleteAwningLight(@PathVariable String awningLightId) {
+        return awningLightMapper.deleteById(awningLightId);
     }
 
 }
