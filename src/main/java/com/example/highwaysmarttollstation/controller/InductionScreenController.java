@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -42,5 +43,27 @@ public class InductionScreenController {
     public List<InductionScreenEntity> updateInductionScreen(@RequestBody InductionScreenEntity inductionScreenEntity){
         inductionScreenMapper.updateById(inductionScreenEntity);
         return inductionScreenMapper.selectList(new QueryWrapper<InductionScreenEntity>().eq("transaction_id",inductionScreenEntity.getTransactionId()));
+    }
+
+    /**
+     * 添加诱导屏
+     * @param inductionScreenEntity 诱导屏实体
+     * @return InductionScreenEntity
+     */
+    @PostMapping("/addInductionScreen")
+    public InductionScreenEntity addInductionScreen(@RequestBody InductionScreenEntity inductionScreenEntity){
+        inductionScreenEntity.setInductionScreenId(UUID.randomUUID().toString());
+        inductionScreenMapper.insert(inductionScreenEntity);
+        return inductionScreenEntity;
+    }
+
+    /**
+     * 删除诱导屏
+     * @param inductionScreenId 诱导屏ID
+     * @return int
+     */
+    @GetMapping("/deleteInductionScreen/{inductionScreenId}")
+    public int deleteInductionScreen(@PathVariable String inductionScreenId) {
+        return inductionScreenMapper.deleteById(inductionScreenId);
     }
 }

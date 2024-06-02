@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -42,5 +43,28 @@ public class CameraController {
     public List<CameraEntity> updateCamera(@RequestBody CameraEntity cameraEntity){
         cameraMapper.updateById(cameraEntity);
         return cameraMapper.selectList(new QueryWrapper<CameraEntity>().eq("transaction_id",cameraEntity.getTransactionId()));
+    }
+
+    /**
+     * 添加摄像头
+     * @param cameraEntity 摄像头实体
+     * @return CameraEntity
+     */
+    @PostMapping("/addCamera")
+    public CameraEntity addCamera(@RequestBody CameraEntity cameraEntity){
+        cameraEntity.setCameraId(UUID.randomUUID().toString());
+        cameraMapper.insert(cameraEntity);
+        return cameraEntity;
+    }
+
+    /**
+     * 删除摄像头
+     * @param cameraId 摄像头ID
+     * @return List<CameraEntity>
+     */
+    @GetMapping("/deleteCamera/{cameraId},{transactionId}")
+    public List<CameraEntity> deleteCamera(@PathVariable String cameraId,@PathVariable String transactionId) {
+        cameraMapper.deleteById(cameraId);
+        return cameraMapper.selectList(new QueryWrapper<CameraEntity>().eq("transaction_id",transactionId));
     }
 }

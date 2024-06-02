@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -43,4 +44,27 @@ public class EtcAntennaController {
         etcAntennaMapper.updateById(etcAntennaEntity);
         return etcAntennaMapper.selectList(new QueryWrapper<EtcAntennaEntity>().eq("transaction_id",etcAntennaEntity.getTransactionId()));
     }
+
+    /**
+     * 添加ETC天线
+     * @param etcAntennaEntity 天线实体
+     * @return EtcAntennaEntity
+     */
+    @PostMapping("/addAntenna")
+    public EtcAntennaEntity addAntenna(@RequestBody EtcAntennaEntity etcAntennaEntity) {
+        etcAntennaEntity.setAntennaId(UUID.randomUUID().toString());
+        etcAntennaMapper.insert(etcAntennaEntity);
+        return etcAntennaEntity;
+    }
+
+    /**
+     * 删除ETC天线
+     * @param antennaId 天线id
+     * @return int
+     */
+    @GetMapping("/deleteAntenna/{antennaId}")
+    public int deleteAntenna(@PathVariable String antennaId) {
+        return etcAntennaMapper.deleteById(antennaId);
+    }
+
 }
