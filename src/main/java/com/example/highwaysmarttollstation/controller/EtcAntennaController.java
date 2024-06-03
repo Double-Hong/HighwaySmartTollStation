@@ -67,4 +67,13 @@ public class EtcAntennaController {
         return etcAntennaMapper.deleteById(antennaId);
     }
 
+    /**
+     * 获取所有ETC天线
+     * @return List<EtcAntennaEntity>
+     */
+    @GetMapping("/getAllAntenna")
+    public List<EtcAntennaEntity> getAllAntenna() {
+        return etcAntennaMapper.getAllEtcAntenna();
+    }
+
 }

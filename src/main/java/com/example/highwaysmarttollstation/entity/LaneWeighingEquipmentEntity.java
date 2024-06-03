@@ -32,6 +32,9 @@ public class LaneWeighingEquipmentEntity {
     @TableField("lane_infrastructure_id")
     private String laneInfrastructureId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @TableField("lane_weighing_name")
     private String laneWeighingName;
 

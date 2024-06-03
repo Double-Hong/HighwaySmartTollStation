@@ -5,6 +5,7 @@ import com.example.highwaysmarttollstation.mapper.AwningLightMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -50,6 +51,15 @@ public class AwningLightController {
     @GetMapping("/deleteAwningLight/{awningLightId}")
     public int deleteAwningLight(@PathVariable String awningLightId) {
         return awningLightMapper.deleteById(awningLightId);
+    }
+
+    /**
+     * 获取所有雨棚灯
+     * @return List<AwningLightEntity>
+     */
+    @GetMapping("/getAllAwningLight")
+    public List<AwningLightEntity> getAllAwningLight(){
+        return awningLightMapper.getAllAwningLight();
     }
 
 }

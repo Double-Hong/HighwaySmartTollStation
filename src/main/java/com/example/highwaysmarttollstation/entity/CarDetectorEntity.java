@@ -32,6 +32,9 @@ public class CarDetectorEntity {
     @TableField("lane_infrastructure_id")
     private String laneInfrastructureId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @TableField("car_detector_name")
     private String carDetectorName;
 

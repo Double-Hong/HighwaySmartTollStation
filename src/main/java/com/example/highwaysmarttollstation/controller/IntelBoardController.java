@@ -5,6 +5,7 @@ import com.example.highwaysmarttollstation.mapper.IntelBoardMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -49,6 +50,15 @@ public class IntelBoardController {
     @GetMapping("/deleteIntelBoard/{ledBoardId}")
     public int deleteIntelBoard(@PathVariable String ledBoardId) {
         return intelBoardMapper.deleteById(ledBoardId);
+    }
+
+    /**
+     * 获取所有LED情报板
+     * @return List<IntelBoardEntity>
+     */
+    @GetMapping("/getAllIntelBoard")
+    public List<IntelBoardEntity> getAllIntelBoard(){
+        return intelBoardMapper.getAllIntelBoard();
     }
 
 }

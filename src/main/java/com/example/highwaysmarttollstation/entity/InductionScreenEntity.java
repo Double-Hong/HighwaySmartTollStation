@@ -32,6 +32,9 @@ public class InductionScreenEntity {
     @TableField("transaction_id")
     private String transactionId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @ApiModelProperty("诱导屏名称")
     @TableField("induction_screen_name")
     private String inductionScreenName;

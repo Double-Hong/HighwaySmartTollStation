@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -19,6 +20,7 @@ import lombok.experimental.Accessors;
  * @author Double-Hong
  * @since 2024-05-02 19:39:33
  */
+@ToString
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -34,6 +36,9 @@ public class CameraEntity {
 
     @TableField("transaction_id")
     private String transactionId;
+
+    @TableField(exist = false)
+    private String fatherName;
 
     @ApiModelProperty("摄像头名称")
     @TableField("camera_name")

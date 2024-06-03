@@ -32,6 +32,9 @@ public class EntranceEquipmentEntity {
     @TableField("lane_smart_device_id")
     private String laneSmartDeviceId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @TableField("entrance_name")
     private String entranceName;
 

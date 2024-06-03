@@ -32,6 +32,9 @@ public class IntelBoardEntity {
     @TableField("lane_infrastructure_id")
     private String laneInfrastructureId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @TableField("led_board_name")
     private String ledBoardName;
 

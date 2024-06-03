@@ -5,6 +5,7 @@ import com.example.highwaysmarttollstation.mapper.LaneWeighingEquipmentMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -49,5 +50,14 @@ public class LaneWeighingEquipmentController {
     @GetMapping("/deleteLaneWeighingEquipment/{laneWeighingId}")
     public int deleteLaneWeighingEquipment(@PathVariable String laneWeighingId){
         return laneWeighingEquipmentMapper.deleteById(laneWeighingId);
+    }
+
+    /**
+     * 获取所有车道称重设备
+     * @return List<LaneWeighingEquipmentEntity>
+     */
+    @GetMapping("/getAllLaneWeighingEquipment")
+    public List<LaneWeighingEquipmentEntity> getAllLaneWeighingEquipment(){
+        return laneWeighingEquipmentMapper.getAllLaneWeighingEquipment();
     }
 }

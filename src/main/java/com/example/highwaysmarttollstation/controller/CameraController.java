@@ -67,4 +67,13 @@ public class CameraController {
         cameraMapper.deleteById(cameraId);
         return cameraMapper.selectList(new QueryWrapper<CameraEntity>().eq("transaction_id",transactionId));
     }
+
+    /**
+     * 获取所有摄像头
+     * @return List<CameraEntity>
+     */
+    @GetMapping("/getAllCamera")
+    public List<CameraEntity> getAllCamera(){
+        return cameraMapper.getAllCamera();
+    }
 }

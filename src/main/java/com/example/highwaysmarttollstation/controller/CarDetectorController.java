@@ -5,6 +5,7 @@ import com.example.highwaysmarttollstation.mapper.CarDetectorMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -49,5 +50,14 @@ public class CarDetectorController {
     @GetMapping("/deleteCarDetector/{carDetectorId}")
     public int deleteCarDetector(@PathVariable String carDetectorId) {
         return carDetectorMapper.deleteById(carDetectorId);
+    }
+
+    /**
+     * 获取所有车检器
+     * @return List<CarDetectorEntity>
+     */
+    @GetMapping("/getAllCarDetector")
+    public List<CarDetectorEntity> getAllCarDetector(){
+        return carDetectorMapper.getAllCarDetector();
     }
 }

@@ -3,6 +3,9 @@ package com.example.highwaysmarttollstation.mapper;
 import com.example.highwaysmarttollstation.entity.IntelBoardEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IntelBoardMapper extends BaseMapper<IntelBoardEntity> {
 
+
+    /**
+     * 获取所有LED情报板信息
+     * @return List<IntelBoardEntity>
+     */
+    @Select("select intel_board.*,lane_infrastructure.lane_infrastructure_name as fatherName from lane_infrastructure,intel_board where intel_board.lane_infrastructure_id = lane_infrastructure.lane_infrastructure_id")
+    List<IntelBoardEntity> getAllIntelBoard();
 }

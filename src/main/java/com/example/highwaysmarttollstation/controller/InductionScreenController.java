@@ -66,4 +66,13 @@ public class InductionScreenController {
     public int deleteInductionScreen(@PathVariable String inductionScreenId) {
         return inductionScreenMapper.deleteById(inductionScreenId);
     }
+
+    /**
+     * 获取所有诱导屏
+     * @return List<InductionScreenEntity>
+     */
+    @GetMapping("/getAllInductionScreen")
+    public List<InductionScreenEntity> getAllInductionScreen(){
+        return inductionScreenMapper.getAllInductionScreen();
+    }
 }

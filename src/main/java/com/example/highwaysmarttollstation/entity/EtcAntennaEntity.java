@@ -32,6 +32,9 @@ public class EtcAntennaEntity {
     @TableField("transaction_id")
     private String transactionId;
 
+    @TableField(exist = false)
+    private String fatherName;
+
     @ApiModelProperty("天线名称")
     @TableField("antenna_name")
     private String antennaName;

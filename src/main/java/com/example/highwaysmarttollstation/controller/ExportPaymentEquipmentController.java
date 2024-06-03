@@ -7,6 +7,7 @@ import com.example.highwaysmarttollstation.mapper.LaneSmartDeviceMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -66,6 +67,15 @@ public class ExportPaymentEquipmentController {
     @GetMapping("/deleteExportPaymentEquipment/{id}")
     public int deleteExportPaymentEquipment(@PathVariable String id) {
         return exportPaymentEquipmentMapper.deleteById(id);
+    }
+
+    /**
+     * 获取所有出口自助缴费设备
+     * @return List<ExportPaymentEquipmentEntity>
+     */
+    @GetMapping("/getAllExportPaymentEquipment")
+    public List<ExportPaymentEquipmentEntity> getAllExportPaymentEquipment(){
+        return exportPaymentEquipmentMapper.getAllExportPaymentEquipment();
     }
 
 }
