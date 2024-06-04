@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -34,6 +36,7 @@ public class CameraLogEntity {
     @TableField("camera_id")
     private String cameraId;
 
+    @JsonFormat(pattern = "yyyy/M/d H:mm:ss")
     @TableField("log_time")
     private LocalDateTime logTime;
 

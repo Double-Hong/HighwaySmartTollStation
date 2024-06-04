@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CameraService extends IService<CameraEntity> {
 
+    void setEquipmentState(String cameraId, String state);
 }

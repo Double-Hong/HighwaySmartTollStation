@@ -50,5 +50,12 @@ public class LaneSmartDeviceEntity {
     @TableField("equipment_ip")
     private String equipmentIp;
 
+    @ApiModelProperty("子设备数量")
+    @TableField("children_number")
+    private int childrenNumber;
+
+    @ApiModelProperty("当前子设备状态为连接的数量")
+    @TableField("current_number")
+    private int currentNumber;
 
 }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -33,6 +35,7 @@ public class FaultLogEntity {
     @TableField("device_id")
     private String deviceId;
 
+    @JsonFormat(pattern = "yyyy/M/d H:mm:ss")
     @ApiModelProperty("故障时间")
     @TableField("fault_time")
     private LocalDateTime faultTime;
