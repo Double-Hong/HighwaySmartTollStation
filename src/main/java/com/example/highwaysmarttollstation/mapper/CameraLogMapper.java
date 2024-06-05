@@ -20,6 +20,6 @@ public interface CameraLogMapper extends BaseMapper<CameraLogEntity> {
 
     @Select("select camera_log.*,camera.camera_name as equipmentName,user_info.name as writerName " +
             "from camera_log,camera,user_info where camera_log.camera_id = #{cameraId}" +
-            " and camera_log.camera_id = camera.camera_id and camera_log.writer_id = user_info.uid")
+            " and camera_log.camera_id = camera.camera_id and camera_log.writer_id = user_info.uid order by log_time desc")
     List<CameraLogEntity> getCameraLogByCameraId(String cameraId);
 }

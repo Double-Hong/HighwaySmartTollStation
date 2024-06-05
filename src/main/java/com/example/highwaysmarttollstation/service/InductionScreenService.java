@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface InductionScreenService extends IService<InductionScreenEntity> {
 
+    void setEquipmentState(String deviceId, String state);
 }

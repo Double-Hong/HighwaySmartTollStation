@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AwningLightService extends IService<AwningLightEntity> {
 
+    void setEquipmentState(String deviceId, String state);
 }

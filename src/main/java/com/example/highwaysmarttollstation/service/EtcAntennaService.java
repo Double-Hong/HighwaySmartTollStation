@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EtcAntennaService extends IService<EtcAntennaEntity> {
 
+    void setEquipmentState(String deviceId, String state);
 }

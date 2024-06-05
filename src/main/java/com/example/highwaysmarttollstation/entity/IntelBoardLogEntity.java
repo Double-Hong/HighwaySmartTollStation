@@ -11,30 +11,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 雨棚灯日志
+ * LED情报板日志
  * </p>
  *
  * @author Double-Hong
- * @since 2024-06-03 17:31:30
+ * @since 2024-06-05 11:53:02
  */
-@ToString
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("awning_light_log")
-@ApiModel(value = "AwningLightLogEntity对象", description = "雨棚灯日志")
-public class AwningLightLogEntity {
+@TableName("intel_board_log")
+@ApiModel(value = "IntelBoardLogEntity对象", description = "LED情报板日志")
+public class IntelBoardLogEntity {
 
     @TableId(value = "log_id", type = IdType.AUTO)
     private String logId;
 
-    @TableField("awning_light_id")
-    private String awningLightId;
+    @TableField("led_board_id")
+    private String ledBoardId;
 
     @JsonFormat(pattern = "yyyy/M/d H:mm:ss")
     @TableField("log_time")
@@ -52,13 +50,17 @@ public class AwningLightLogEntity {
     @TableField("`description`")
     private String description;
 
+    @ApiModelProperty("显示率")
+    @TableField("display_rate")
+    private Float displayRate;
+
     @ApiModelProperty("亮度")
     @TableField("brightness")
     private Float brightness;
 
-    @ApiModelProperty("灯具类型")
-    @TableField("fixture_type")
-    private String fixtureType;
+    @ApiModelProperty("对比度")
+    @TableField("contrast_ratio")
+    private Float contrastRatio;
 
     @ApiModelProperty("IP地址")
     @TableField("equipment_ip")
@@ -77,5 +79,4 @@ public class AwningLightLogEntity {
 
     @TableField(exist = false)
     private String writerName;
-
 }

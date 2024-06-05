@@ -11,30 +11,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 雨棚灯日志
+ * 出口自助缴费设备日志
  * </p>
  *
  * @author Double-Hong
- * @since 2024-06-03 17:31:30
+ * @since 2024-06-05 11:53:02
  */
-@ToString
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("awning_light_log")
-@ApiModel(value = "AwningLightLogEntity对象", description = "雨棚灯日志")
-public class AwningLightLogEntity {
+@TableName("export_payment_equipment_log")
+@ApiModel(value = "ExportPaymentEquipmentLogEntity对象", description = "出口自助缴费设备日志")
+public class ExportPaymentEquipmentLogEntity {
 
     @TableId(value = "log_id", type = IdType.AUTO)
     private String logId;
 
-    @TableField("awning_light_id")
-    private String awningLightId;
+    @TableField("export_equipment_id")
+    private String exportEquipmentId;
 
     @JsonFormat(pattern = "yyyy/M/d H:mm:ss")
     @TableField("log_time")
@@ -52,13 +50,13 @@ public class AwningLightLogEntity {
     @TableField("`description`")
     private String description;
 
-    @ApiModelProperty("亮度")
-    @TableField("brightness")
-    private Float brightness;
+    @ApiModelProperty("打印收据的纸的数量")
+    @TableField("receipt_number")
+    private Integer receiptNumber;
 
-    @ApiModelProperty("灯具类型")
-    @TableField("fixture_type")
-    private String fixtureType;
+    @ApiModelProperty("收费扫描器的状态")
+    @TableField("scanner_state")
+    private String scannerState;
 
     @ApiModelProperty("IP地址")
     @TableField("equipment_ip")
@@ -77,5 +75,4 @@ public class AwningLightLogEntity {
 
     @TableField(exist = false)
     private String writerName;
-
 }

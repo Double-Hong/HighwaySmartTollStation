@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-05-02 19:39:33
  */
 public interface LaneWeighingEquipmentService extends IService<LaneWeighingEquipmentEntity> {
-
+    void setEquipmentState(String deviceId, String state);
 }

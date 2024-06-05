@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IntelBoardService extends IService<IntelBoardEntity> {
 
+    void setEquipmentState(String deviceId, String state);
 }
