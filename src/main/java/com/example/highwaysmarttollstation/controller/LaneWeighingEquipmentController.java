@@ -1,6 +1,8 @@
 package com.example.highwaysmarttollstation.controller;
 
+import com.example.highwaysmarttollstation.entity.LaneInfrastructureEntity;
 import com.example.highwaysmarttollstation.entity.LaneWeighingEquipmentEntity;
+import com.example.highwaysmarttollstation.mapper.LaneInfrastructureMapper;
 import com.example.highwaysmarttollstation.mapper.LaneWeighingEquipmentMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ public class LaneWeighingEquipmentController {
     @Resource
     LaneWeighingEquipmentMapper laneWeighingEquipmentMapper;
 
+    @Resource
+    LaneInfrastructureMapper laneInfrastructureMapper;
+
     @PostMapping("/updateLaneWeighingEquipment")
     public int updateLaneWeighingEquipment(@RequestBody LaneWeighingEquipmentEntity laneWeighingEquipmentEntity){
         return laneWeighingEquipmentMapper.updateById(laneWeighingEquipmentEntity);
@@ -36,6 +41,15 @@ public class LaneWeighingEquipmentController {
      */
     @PostMapping("/addLaneWeighingEquipment")
     public LaneWeighingEquipmentEntity addLaneWeighingEquipment(@RequestBody LaneWeighingEquipmentEntity laneWeighingEquipmentEntity){
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(laneWeighingEquipmentEntity.getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() + 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() + 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         laneWeighingEquipmentEntity.setLaneWeighingId(UUID.randomUUID().toString());
         laneWeighingEquipmentMapper.insert(laneWeighingEquipmentEntity);
         return laneWeighingEquipmentEntity;
@@ -49,6 +63,15 @@ public class LaneWeighingEquipmentController {
      */
     @GetMapping("/deleteLaneWeighingEquipment/{laneWeighingId}")
     public int deleteLaneWeighingEquipment(@PathVariable String laneWeighingId){
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(laneWeighingEquipmentMapper.selectById(laneWeighingId).getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() - 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() - 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         return laneWeighingEquipmentMapper.deleteById(laneWeighingId);
     }
 

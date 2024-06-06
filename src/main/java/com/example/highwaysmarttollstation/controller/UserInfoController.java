@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.highwaysmarttollstation.entity.UserInfoEntity;
 import com.example.highwaysmarttollstation.mapper.UserInfoMapper;
+import com.example.highwaysmarttollstation.service.UserInfoService;
 import jakarta.annotation.Resource;
 import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class UserInfoController {
 
     @Resource
     UserInfoMapper userInfoMapper;
+
+    @Resource
+    UserInfoService userInfoService;
 
     /**
      * 登录
@@ -90,6 +94,12 @@ public class UserInfoController {
     @GetMapping("/checkUsername/{username}")
     public int checkUsername(@PathVariable String username){
         return userInfoMapper.selectList(new QueryWrapper<UserInfoEntity>().eq("username",username)).size();
+    }
+
+    @GetMapping("/recordDevice")
+    public int recordDevice(){
+        userInfoService.backupAllDeviceLogs();
+        return 1;
     }
 
 }

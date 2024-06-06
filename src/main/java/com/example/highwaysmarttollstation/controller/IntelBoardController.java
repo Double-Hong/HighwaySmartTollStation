@@ -1,7 +1,9 @@
 package com.example.highwaysmarttollstation.controller;
 
 import com.example.highwaysmarttollstation.entity.IntelBoardEntity;
+import com.example.highwaysmarttollstation.entity.LaneInfrastructureEntity;
 import com.example.highwaysmarttollstation.mapper.IntelBoardMapper;
+import com.example.highwaysmarttollstation.mapper.LaneInfrastructureMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,9 @@ public class IntelBoardController {
     @Resource
     IntelBoardMapper intelBoardMapper;
 
+    @Resource
+    LaneInfrastructureMapper laneInfrastructureMapper;
+
     @PostMapping("/updateIntelBoard")
     public int updateIntelBoard(@RequestBody IntelBoardEntity intelBoardEntity) {
         return intelBoardMapper.updateById(intelBoardEntity);
@@ -36,6 +41,15 @@ public class IntelBoardController {
      */
     @PostMapping("/addIntelBoard")
     public IntelBoardEntity addIntelBoard(@RequestBody IntelBoardEntity intelBoardEntity) {
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(intelBoardEntity.getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() + 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() + 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         intelBoardEntity.setLedBoardId(UUID.randomUUID().toString());
         intelBoardMapper.insert(intelBoardEntity);
         return intelBoardEntity;
@@ -49,6 +63,15 @@ public class IntelBoardController {
      */
     @GetMapping("/deleteIntelBoard/{ledBoardId}")
     public int deleteIntelBoard(@PathVariable String ledBoardId) {
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(intelBoardMapper.selectById(ledBoardId).getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() - 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() - 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         return intelBoardMapper.deleteById(ledBoardId);
     }
 

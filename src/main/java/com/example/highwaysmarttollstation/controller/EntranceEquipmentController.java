@@ -54,6 +54,13 @@ public class EntranceEquipmentController {
         entranceEquipmentMapper.insert(entranceEquipmentEntity);
         LaneSmartDeviceEntity laneSmartDeviceEntity = laneSmartDeviceMapper.selectById(smartDeviceId);
         laneSmartDeviceEntity.setEntranceEquipmentId(entranceEquipmentEntity.getEntranceEquipmentId());
+        laneSmartDeviceEntity.setCurrentNumber(laneSmartDeviceEntity.getCurrentNumber() + 1);
+        laneSmartDeviceEntity.setChildrenNumber(laneSmartDeviceEntity.getChildrenNumber() + 1);
+        if (laneSmartDeviceEntity.getCurrentNumber() == laneSmartDeviceEntity.getChildrenNumber()){
+            laneSmartDeviceEntity.setState("连接");
+        }else {
+            laneSmartDeviceEntity.setState("未连接");
+        }
         laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
         return entranceEquipmentMapper.selectById(entranceEquipmentEntity.getEntranceEquipmentId());
     }
@@ -66,6 +73,15 @@ public class EntranceEquipmentController {
      */
     @GetMapping("/deleteEntranceEquipment/{id}")
     public int deleteEntranceEquipment(@PathVariable String id) {
+        LaneSmartDeviceEntity laneSmartDeviceEntity = laneSmartDeviceMapper.selectById(entranceEquipmentMapper.selectById(id).getLaneSmartDeviceId());
+        laneSmartDeviceEntity.setCurrentNumber(laneSmartDeviceEntity.getCurrentNumber() - 1);
+        laneSmartDeviceEntity.setChildrenNumber(laneSmartDeviceEntity.getChildrenNumber() - 1);
+        if (laneSmartDeviceEntity.getCurrentNumber() == laneSmartDeviceEntity.getChildrenNumber()){
+            laneSmartDeviceEntity.setState("连接");
+        }else {
+            laneSmartDeviceEntity.setState("未连接");
+        }
+        laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
         return entranceEquipmentMapper.deleteById(id);
     }
 

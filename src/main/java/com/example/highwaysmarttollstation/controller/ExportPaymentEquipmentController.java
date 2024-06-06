@@ -53,6 +53,13 @@ public class ExportPaymentEquipmentController {
         exportPaymentEquipmentMapper.insert(exportPaymentEquipmentEntity);
         LaneSmartDeviceEntity laneSmartDeviceEntity = laneSmartDeviceMapper.selectById(smartDeviceId);
         laneSmartDeviceEntity.setExportEquipmentId(exportPaymentEquipmentEntity.getExportEquipmentId());
+        laneSmartDeviceEntity.setCurrentNumber(laneSmartDeviceEntity.getCurrentNumber() + 1);
+        laneSmartDeviceEntity.setChildrenNumber(laneSmartDeviceEntity.getChildrenNumber() + 1);
+        if (laneSmartDeviceEntity.getCurrentNumber() == laneSmartDeviceEntity.getChildrenNumber()){
+            laneSmartDeviceEntity.setState("连接");
+        }else {
+            laneSmartDeviceEntity.setState("未连接");
+        }
         laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
         return exportPaymentEquipmentMapper.selectById(exportPaymentEquipmentEntity.getExportEquipmentId());
     }
@@ -66,6 +73,15 @@ public class ExportPaymentEquipmentController {
      */
     @GetMapping("/deleteExportPaymentEquipment/{id}")
     public int deleteExportPaymentEquipment(@PathVariable String id) {
+        LaneSmartDeviceEntity laneSmartDeviceEntity = laneSmartDeviceMapper.selectById(exportPaymentEquipmentMapper.selectById(id).getLaneSmartDeviceId());
+        laneSmartDeviceEntity.setCurrentNumber(laneSmartDeviceEntity.getCurrentNumber() - 1);
+        laneSmartDeviceEntity.setChildrenNumber(laneSmartDeviceEntity.getChildrenNumber() - 1);
+        if (laneSmartDeviceEntity.getCurrentNumber() == laneSmartDeviceEntity.getChildrenNumber()){
+            laneSmartDeviceEntity.setState("连接");
+        }else {
+            laneSmartDeviceEntity.setState("未连接");
+        }
+        laneSmartDeviceMapper.updateById(laneSmartDeviceEntity);
         return exportPaymentEquipmentMapper.deleteById(id);
     }
 

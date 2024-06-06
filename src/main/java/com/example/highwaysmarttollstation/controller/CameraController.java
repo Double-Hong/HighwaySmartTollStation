@@ -27,6 +27,9 @@ public class CameraController {
     @Resource
     CameraMapper cameraMapper;
 
+    @Resource
+    PreTransactionGantryEquipmentMapper preTransactionGantryEquipmentMapper;
+
     /**
      * 根据id获取摄像头信息
      *
@@ -59,6 +62,15 @@ public class CameraController {
     @PostMapping("/addCamera")
     public CameraEntity addCamera(@RequestBody CameraEntity cameraEntity) {
         cameraEntity.setCameraId(UUID.randomUUID().toString());
+        PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity = preTransactionGantryEquipmentMapper.selectById(cameraEntity.getTransactionId());
+        preTransactionGantryEquipmentEntity.setCurrentNumber(preTransactionGantryEquipmentEntity.getCurrentNumber()+1);
+        preTransactionGantryEquipmentEntity.setChildrenNumber(preTransactionGantryEquipmentEntity.getChildrenNumber()+1);
+        if (preTransactionGantryEquipmentEntity.getCurrentNumber() == preTransactionGantryEquipmentEntity.getChildrenNumber()){
+            preTransactionGantryEquipmentEntity.setState("连接");
+        }else {
+            preTransactionGantryEquipmentEntity.setState("未连接");
+        }
+        preTransactionGantryEquipmentMapper.updateById(preTransactionGantryEquipmentEntity);
         cameraMapper.insert(cameraEntity);
         return cameraEntity;
     }
@@ -71,6 +83,15 @@ public class CameraController {
      */
     @GetMapping("/deleteCamera/{cameraId},{transactionId}")
     public List<CameraEntity> deleteCamera(@PathVariable String cameraId, @PathVariable String transactionId) {
+        PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity = preTransactionGantryEquipmentMapper.selectById(transactionId);
+        preTransactionGantryEquipmentEntity.setCurrentNumber(preTransactionGantryEquipmentEntity.getCurrentNumber()-1);
+        preTransactionGantryEquipmentEntity.setChildrenNumber(preTransactionGantryEquipmentEntity.getChildrenNumber()-1);
+        if (preTransactionGantryEquipmentEntity.getCurrentNumber() == preTransactionGantryEquipmentEntity.getChildrenNumber()){
+            preTransactionGantryEquipmentEntity.setState("连接");
+        }else {
+            preTransactionGantryEquipmentEntity.setState("未连接");
+        }
+        preTransactionGantryEquipmentMapper.updateById(preTransactionGantryEquipmentEntity);
         cameraMapper.deleteById(cameraId);
         return cameraMapper.selectList(new QueryWrapper<CameraEntity>().eq("transaction_id", transactionId));
     }

@@ -1,7 +1,9 @@
 package com.example.highwaysmarttollstation.controller;
 
 import com.example.highwaysmarttollstation.entity.CarDetectorEntity;
+import com.example.highwaysmarttollstation.entity.LaneInfrastructureEntity;
 import com.example.highwaysmarttollstation.mapper.CarDetectorMapper;
+import com.example.highwaysmarttollstation.mapper.LaneInfrastructureMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,9 @@ public class CarDetectorController {
     @Resource
     CarDetectorMapper carDetectorMapper;
 
+    @Resource
+    LaneInfrastructureMapper laneInfrastructureMapper;
+
     @PostMapping("/updateCarDetector")
     public int updateCarDetector(@RequestBody CarDetectorEntity carDetectorEntity) {
         return carDetectorMapper.updateById(carDetectorEntity);
@@ -36,6 +41,15 @@ public class CarDetectorController {
      */
     @PostMapping("/addCarDetector")
     public CarDetectorEntity addCarDetector(@RequestBody CarDetectorEntity carDetectorEntity) {
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(carDetectorEntity.getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() + 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() + 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         carDetectorEntity.setCarDetectorId(UUID.randomUUID().toString());
         carDetectorMapper.insert(carDetectorEntity);
         return carDetectorEntity;
@@ -49,6 +63,15 @@ public class CarDetectorController {
      */
     @GetMapping("/deleteCarDetector/{carDetectorId}")
     public int deleteCarDetector(@PathVariable String carDetectorId) {
+        LaneInfrastructureEntity laneInfrastructureEntity = laneInfrastructureMapper.selectById(carDetectorMapper.selectById(carDetectorId).getLaneInfrastructureId());
+        laneInfrastructureEntity.setCurrentNumber(laneInfrastructureEntity.getCurrentNumber() - 1);
+        laneInfrastructureEntity.setChildrenNumber(laneInfrastructureEntity.getChildrenNumber() - 1);
+        if (laneInfrastructureEntity.getCurrentNumber() == laneInfrastructureEntity.getChildrenNumber()){
+            laneInfrastructureEntity.setState("连接");
+        }else {
+            laneInfrastructureEntity.setState("未连接");
+        }
+        laneInfrastructureMapper.updateById(laneInfrastructureEntity);
         return carDetectorMapper.deleteById(carDetectorId);
     }
 

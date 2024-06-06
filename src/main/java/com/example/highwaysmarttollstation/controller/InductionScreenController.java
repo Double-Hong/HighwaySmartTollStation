@@ -2,7 +2,9 @@ package com.example.highwaysmarttollstation.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.highwaysmarttollstation.entity.InductionScreenEntity;
+import com.example.highwaysmarttollstation.entity.PreTransactionGantryEquipmentEntity;
 import com.example.highwaysmarttollstation.mapper.InductionScreenMapper;
+import com.example.highwaysmarttollstation.mapper.PreTransactionGantryEquipmentMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,9 @@ public class InductionScreenController {
 
     @Resource
     InductionScreenMapper inductionScreenMapper;
+
+    @Resource
+    PreTransactionGantryEquipmentMapper preTransactionGantryEquipmentMapper;
 
     /**
      * 根据id获取诱导屏信息
@@ -52,6 +57,15 @@ public class InductionScreenController {
      */
     @PostMapping("/addInductionScreen")
     public InductionScreenEntity addInductionScreen(@RequestBody InductionScreenEntity inductionScreenEntity){
+        PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity = preTransactionGantryEquipmentMapper.selectById(inductionScreenEntity.getTransactionId());
+        preTransactionGantryEquipmentEntity.setCurrentNumber(preTransactionGantryEquipmentEntity.getCurrentNumber()+1);
+        preTransactionGantryEquipmentEntity.setChildrenNumber(preTransactionGantryEquipmentEntity.getChildrenNumber()+1);
+        if (preTransactionGantryEquipmentEntity.getCurrentNumber() == preTransactionGantryEquipmentEntity.getChildrenNumber()){
+            preTransactionGantryEquipmentEntity.setState("连接");
+        }else {
+            preTransactionGantryEquipmentEntity.setState("未连接");
+        }
+        preTransactionGantryEquipmentMapper.updateById(preTransactionGantryEquipmentEntity);
         inductionScreenEntity.setInductionScreenId(UUID.randomUUID().toString());
         inductionScreenMapper.insert(inductionScreenEntity);
         return inductionScreenEntity;
@@ -64,6 +78,15 @@ public class InductionScreenController {
      */
     @GetMapping("/deleteInductionScreen/{inductionScreenId}")
     public int deleteInductionScreen(@PathVariable String inductionScreenId) {
+        PreTransactionGantryEquipmentEntity preTransactionGantryEquipmentEntity = preTransactionGantryEquipmentMapper.selectById(inductionScreenMapper.selectById(inductionScreenId).getTransactionId());
+        preTransactionGantryEquipmentEntity.setCurrentNumber(preTransactionGantryEquipmentEntity.getCurrentNumber() - 1);
+        preTransactionGantryEquipmentEntity.setChildrenNumber(preTransactionGantryEquipmentEntity.getChildrenNumber() - 1);
+        if (preTransactionGantryEquipmentEntity.getCurrentNumber() == preTransactionGantryEquipmentEntity.getChildrenNumber()){
+            preTransactionGantryEquipmentEntity.setState("连接");
+        }else {
+            preTransactionGantryEquipmentEntity.setState("未连接");
+        }
+        preTransactionGantryEquipmentMapper.updateById(preTransactionGantryEquipmentEntity);
         return inductionScreenMapper.deleteById(inductionScreenId);
     }
 
