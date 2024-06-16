@@ -104,6 +104,11 @@ public class ExportPaymentEquipmentLogController {
             exportPaymentEquipmentLogMapper.updateById(faultLog);
         }
 
+        ExportPaymentEquipmentEntity exportPaymentEquipmentEntity = exportPaymentEquipmentMapper.selectById(exportPaymentEquipmentLogEntity.getExportEquipmentId());
+        exportPaymentEquipmentEntity.setReceiptNumber(exportPaymentEquipmentLogEntity.getReceiptNumber());
+        exportPaymentEquipmentEntity.setScannerState(exportPaymentEquipmentLogEntity.getScannerState());
+        exportPaymentEquipmentMapper.updateById(exportPaymentEquipmentEntity);
+
         return null;
     }
 }

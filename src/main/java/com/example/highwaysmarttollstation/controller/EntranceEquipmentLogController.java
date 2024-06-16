@@ -103,6 +103,10 @@ public class EntranceEquipmentLogController {
             entranceEquipmentLogMapper.updateById(faultLog);
         }
 
+        EntranceEquipmentEntity entranceEquipmentEntity = entranceEquipmentMapper.selectById(entranceEquipmentLogEntity.getEntranceEquipmentId());
+        entranceEquipmentEntity.setCardNumber(entranceEquipmentLogEntity.getCardNumber());
+        entranceEquipmentMapper.updateById(entranceEquipmentEntity);
+
         return null;
     }
 

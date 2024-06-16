@@ -101,6 +101,11 @@ public class CarDetectorLogController {
             faultLog.setState("连接");
             carDetectorLogMapper.updateById(faultLog);
         }
+
+        CarDetectorEntity carDetectorEntity = carDetectorMapper.selectById(carDetectorLogEntity.getCarDetectorId());
+        carDetectorEntity.setDetectionRange(carDetectorLogEntity.getDetectionRange());
+        carDetectorMapper.updateById(carDetectorEntity);
+
         return null;
     }
 

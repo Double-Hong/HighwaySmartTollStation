@@ -101,6 +101,13 @@ public class IntelBoardLogController {
             faultLog.setState("连接");
             intelBoardLogMapper.updateById(faultLog);
         }
+
+        IntelBoardEntity intelBoardEntity = intelBoardMapper.selectById(intelBoardLogEntity.getLedBoardId());
+        intelBoardEntity.setBrightness(intelBoardLogEntity.getBrightness());
+        intelBoardEntity.setContrastRatio(intelBoardLogEntity.getContrastRatio());
+        intelBoardEntity.setDisplayRate(intelBoardLogEntity.getDisplayRate());
+        intelBoardMapper.updateById(intelBoardEntity);
+
         return null;
     }
 }

@@ -104,6 +104,11 @@ public class InductionScreenLogController {
             inductionScreenLogMapper.updateById(faultLog);
         }
 
+        InductionScreenEntity inductionScreenEntity = inductionScreenMapper.selectById(inductionScreenLogEntity.getInductionScreenId());
+        inductionScreenEntity.setBrightness(inductionScreenLogEntity.getBrightness());
+        inductionScreenEntity.setContrastRatio(inductionScreenLogEntity.getContrastRatio());
+        inductionScreenEntity.setDisplayRate(inductionScreenLogEntity.getDisplayRate());
+        inductionScreenMapper.updateById(inductionScreenEntity);
 
         return null;
     }

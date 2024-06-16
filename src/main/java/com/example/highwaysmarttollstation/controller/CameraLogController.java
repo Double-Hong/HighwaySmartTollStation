@@ -104,6 +104,10 @@ public class CameraLogController {
             faultLog.setState("连接");
             cameraLogMapper.updateById(faultLog);
         }
+        CameraEntity cameraEntity = cameraMapper.selectById(cameraLogEntity.getCameraId());
+        cameraEntity.setAperture(cameraLogEntity.getAperture());
+        cameraEntity.setFocalLength(cameraLogEntity.getFocalLength());
+        cameraMapper.updateById(cameraEntity);
 
         return cameraMapper.selectById(cameraLogEntity.getCameraId());
     }

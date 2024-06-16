@@ -104,6 +104,12 @@ public class EtcAntennaLogController {
             faultLog.setState("连接");
             etcAntennaLogMapper.updateById(faultLog);
         }
+
+        EtcAntennaEntity etcAntennaEntity = etcAntennaMapper.selectById(etcAntennaLogEntity.getAntennaId());
+        etcAntennaEntity.setFrequency(etcAntennaLogEntity.getFrequency());
+        etcAntennaEntity.setBeamWidth(etcAntennaLogEntity.getBeamWidth());
+        etcAntennaEntity.setReadRange(etcAntennaLogEntity.getReadRange());
+        etcAntennaMapper.updateById(etcAntennaEntity);
         return null;
     }
 

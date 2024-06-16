@@ -102,8 +102,10 @@ public class AwningLightLogController {
             awningLightLogMapper.updateById(faultLog);
 
         }
-
-        return awningLightMapper.selectById(awningLightLogEntity.getAwningLightId());
+        AwningLightEntity awningLightEntity = awningLightMapper.selectById(awningLightLogEntity.getAwningLightId());
+        awningLightEntity.setBrightness(awningLightLogEntity.getBrightness());
+        awningLightMapper.updateById(awningLightEntity);
+        return awningLightEntity;
     }
 
 }

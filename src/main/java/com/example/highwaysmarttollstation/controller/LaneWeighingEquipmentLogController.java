@@ -101,6 +101,12 @@ public class LaneWeighingEquipmentLogController {
             faultLog.setState("连接");
             laneWeighingEquipmentLogMapper.updateById(faultLog);
         }
+
+        LaneWeighingEquipmentEntity laneWeighingEquipmentEntity = laneWeighingEquipmentMapper.selectById(laneWeighingEquipmentLogEntity.getLaneWeighingId());
+        laneWeighingEquipmentEntity.setDisplayState(laneWeighingEquipmentLogEntity.getDisplayState());
+        laneWeighingEquipmentEntity.setWeighingMachineState(laneWeighingEquipmentLogEntity.getWeighingMachineState());
+        laneWeighingEquipmentMapper.updateById(laneWeighingEquipmentEntity);
+
         return null;
 
 
